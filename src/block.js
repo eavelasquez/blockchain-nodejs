@@ -1,6 +1,6 @@
 "use strict";
 
-const SHA256 = require("crypto-js/sha256");
+const sha256 = require("crypto-js/sha256");
 const hex2ascii = require("hex2ascii");
 
 module.exports = class Block {
@@ -24,7 +24,7 @@ module.exports = class Block {
     return new Promise((resolve, _reject) => {
       let currentHash = self.hash;
 
-      self.hash = SHA256(JSON.stringify({ ...self, hash: null })).toString();
+      self.hash = sha256(JSON.stringify({ ...self, hash: null })).toString();
 
       currentHash != self.hash ? resolve(false) : resolve(true);
     });
