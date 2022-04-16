@@ -18,7 +18,7 @@ module.exports = class Blockchain {
    */
   async initializeChain() {
     if (this.height === -1) {
-      await this.addBlock(new Block({ data: "Genesis Block" }));
+      this.addBlock(new Block({ data: "Genesis Block" }));
     }
   }
 
@@ -27,14 +27,14 @@ module.exports = class Blockchain {
    * @param {Block} block
    * @returns {Promise<Block>}
    */
-  async addBlock(block) {
+  addBlock(block) {
     const self = this;
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       block.height = self.chain.length;
       block.timestamp = new Date().getTime().toString().slice(0, -3);
 
       if (self.chain.length > 0) {
-        block.previousBlockHash = self.chain[self.chain.length - 1].hash;
+        block.previousHash = self.chain[self.chain.length - 1].hash;
       }
 
       const errors = await self.validateChain();
@@ -61,17 +61,11 @@ module.exports = class Blockchain {
         resolve(errors);
       }
 
-      self.chain.map(async (block, i) => {
+      self.chain.map(async (block) => {
         try {
           const isValid = await block.validate();
           if (!isValid) {
             errors.push(new Error(`The block at height ${block.height} is invalid.`));
-          }
-
-          if (i > 0) {
-            if (block.previousBlockHash !== self.chain[i - 1].hash) {
-              errors.push(`Block ${block.height} has invalid previous hash.`);
-            }
           }
         } catch (error) {
           errors.push(error);
