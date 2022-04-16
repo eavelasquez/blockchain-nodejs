@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "Esteban Velasquez <eavc.30@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "hex2ascii": "^0.0.3"
+  }
 }
