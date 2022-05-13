@@ -9,48 +9,48 @@ const headers = {
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
-  const [newContact, setNewContact] = useState();
+  const [id, setId] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
 
   useEffect(() => {
-    getContacts();
+    getContacts()
   }, []);
 
   const getContacts = async () => {
-    const response = await fetch(url);
+    const response = await fetch(url, { headers });
     const data = await response.json();
 
     setContacts(data);
-    setNewContact('');
+  };
+
+  const getContact = async (id) => {
+    const response = await fetch(`${url}/${id}`);
+    const data = await response.json();
+
+    setId(data.id);
+    setName(data.name);
+    setPhone(data.phone);
   };
 
   const addContact = async () => {
+    console.log({name, phone});
     const response = await fetch(url, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ name: newContact.name, phone: newContact.phone }),
+      body: JSON.stringify({ name, phone }),
     });
 
     const data = await response.json();
 
     setContacts([...contacts, data]);
-    setNewContact('');
-  };
-
-  const deleteContact = async (id) => {
-    const response = await fetch(`${url}/${id}`, {
-      method: 'DELETE',
-    });
-
-    const data = await response.json();
-
-    setContacts(contacts.filter((contact) => contact.id !== id));
   };
 
   const updateContact = async (id) => {
     const response = await fetch(`${url}/${id}`, {
       method: 'PUT',
       headers,
-      body: JSON.stringify({ name: newContact.name, phone: newContact.phone }),
+      body: JSON.stringify({ name, phone }),
     });
 
     const data = await response.json();
@@ -58,20 +58,75 @@ const App = () => {
     setContacts(
       contacts.map((contact) => (contact.id === id ? data : contact))
     );
-    setNewContact('');
+
+    setId('');
+    setName('');
+    setPhone('');
   };
 
-  const getContact = async (id) => {
-    const response = await fetch(`${url}/${id}`);
-    const data = await response.json();
+  const deleteContact = async (id) => {
+    const response = await fetch(`${url}/${id}`, {
+      method: 'DELETE',
+    });
 
-    setNewContact(data.name);
+    if (!response.ok) {
+      throw new Error('Something went wrong!');
+    }
+
+    setContacts(contacts.filter((contact) => contact.id !== id));
   };
 
   return (
     <div className="App">
       <div className="App-content">
-        <h1>Hello World! I'm Web App</h1>
+        <h1>Contacts</h1>
+        <h2>List</h2>
+
+        <div className="App-contacts">
+          {contacts.length > 0 ? (contacts.map((contact) => (
+            <div key={contact.id} className="App-contact">
+              <div className="App-contact-name">{contact.name}</div>
+              <div className="App-contact-phone">{contact.phone}</div>
+              <div className="App-contact-actions">
+                <button onClick={() => getContact(contact.id)}>
+                  Edit
+                </button>
+                <button onClick={() => deleteContact(contact.id)}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))) : (
+            <div style={{ color: 'red' }}>No contacts yet</div>
+          )}
+        </div>
+
+        <h2>New Contact</h2>
+        <div className="App-new-contact">
+          <form>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              type="text"
+              name="phone"
+              placeholder="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={() => id ? updateContact(id) : addContact()}
+              disabled={!name || !phone}
+            >
+              {id ? 'Update' : 'Add'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
