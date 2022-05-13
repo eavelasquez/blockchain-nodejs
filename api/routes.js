@@ -1,6 +1,6 @@
 "use strict";
 
-const routes = (app, db, accounts, contacts) => {
+const routes = (app, _db, accounts, contacts) => {
   app.get("/", (_req, res) => {
     res.send("Hello World! I am a contact API");
   });
