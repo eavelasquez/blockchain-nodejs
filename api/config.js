@@ -1,6 +1,6 @@
 "use strict";
 
-const CONTACT_ADDRESS = "0x0000000000000000000000000000000000000000";
+require("dotenv").config();
 
 const CONTACT_ABI = [
   {
@@ -140,4 +140,13 @@ const CONTACT_ABI = [
   },
 ];
 
-module.exports = { CONTACT_ABI, CONTACT_ADDRESS };
+const { CONTACT_ADDRESS, MONGO_URI, PORT, WEB3_PROVIDER } = process.env;
+
+module.exports = {
+  contactABI: CONTACT_ABI,
+  contactAddress:
+    CONTACT_ADDRESS || "0x0000000000000000000000000000000000000000",
+  mongodbURI: MONGO_URI || "mongodb://127.0.0.1:27017/blockchain-nodejs-api",
+  port: PORT || 3000,
+  web3Provider: WEB3_PROVIDER || "http://localhost:8545",
+};
