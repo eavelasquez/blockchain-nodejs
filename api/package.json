@@ -8,5 +8,13 @@
   },
   "keywords": [],
   "author": "Esteban Velasquez <eavc.30@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@truffle/contract": "^4.5.10",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mongodb": "^4.6.0",
+    "nodemon": "^2.0.16",
+    "web3": "^1.7.3"
+  }
 }
