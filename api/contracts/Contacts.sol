@@ -15,8 +15,10 @@ contract Contacts {
     createContact('Lucy', '555-555-5555');
   }
 
-  function getContact(uint _id) public view returns (Contact memory) {
-    return contacts[_id];
+  function createContact(string memory _name, string memory _phone) public {
+    Contact memory contact = Contact(count, _name, _phone);
+    contacts[count] = contact;
+    count++;
   }
 
   function getContacts() public view returns (Contact[] memory) {
@@ -27,10 +29,8 @@ contract Contacts {
     return ret;
   }
 
-  function createContact(string memory _name, string memory _phone) public {
-    Contact memory contact = Contact(count, _name, _phone);
-    contacts[count] = contact;
-    count++;
+  function getContact(uint _id) public view returns (Contact memory) {
+    return contacts[_id];
   }
 
   function updateContact(uint _id, string memory _name, string memory _phone) public {
