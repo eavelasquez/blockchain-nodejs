@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "build": "node index.js",
+    "deploy:contracts": "truffle compile && truffle migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
