@@ -1,6 +1,7 @@
 # Blockchain Node.js
 
 ## About this project
+
 This project is a Node.js application that is used to create a blockchain. It is a proof of concept about how to create a blockchain in Node.js.
 
 ## Run
