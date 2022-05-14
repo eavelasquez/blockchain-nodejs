@@ -1,5 +1,14 @@
 "use strict";
 
+/**
+ * @module routes.js
+ * @description Routes for the API
+ * @author Esteban Velasquez
+ * @param {object} app - Express app
+ * @param {object} _db - MongoDB connection
+ * @param {object} accounts - Web3 accounts
+ * @param {object} contract - Web3 contracts
+ */
 const routes = (app, _db, accounts, contacts) => {
   app.get("/", (_req, res) => {
     res.send("Hello World! I am a contact API");
@@ -7,14 +16,14 @@ const routes = (app, _db, accounts, contacts) => {
 
   app.post("/contacts", async (req, res) => {
     const { name, phone } = req.body;
-    const contact = await contacts.methods.addContact(name, phone).send({
+    const contact = await contacts.methods.createContact(name, phone).send({
       from: accounts[0],
     });
 
     res.json(contact);
   });
 
-  app.get("/contacts", (req, res) => {
+  app.get("/contacts", async (_req, res) => {
     let cache = [];
     const count = await contacts.methods.count().call();
 
