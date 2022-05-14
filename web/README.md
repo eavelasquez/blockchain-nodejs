@@ -1,5 +1,11 @@
 # Blockchain Node.js Web
 
+## About this project
+
+This project can be considered a dapp that allows you to interact with the [api](../api) that in turn executes the operations of the contact smart contract.
+
+## How to use this project
+
 In the project directory, you can run:
 
 ### `npm start`
@@ -17,5 +23,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
